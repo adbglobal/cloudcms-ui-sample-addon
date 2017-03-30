@@ -24,10 +24,8 @@ define(function (require, exports, module) {
 
             this.base(function() {
 
-                var outer = self.getControlEl();
                 var item  = self.getValue();
                 if (item) {
-                    //outer.val(item.title ? item.title : item.id);
                     self.control.typeahead('val',item.title ? item.title : item.id);
                     self.setValue(self.generateItem(item));
                 }
@@ -68,7 +66,6 @@ define(function (require, exports, module) {
         },
 
         getValue: function () {
-            //console.log('called by : ' + arguments.callee.caller.name);
             var value = null;
 
             if (this.data) {
@@ -84,7 +81,6 @@ define(function (require, exports, module) {
 
         setValue: function (value) {
             this.data = value;
-            //debugger;
             if (Alpaca.isString(value)) {
                 this.data = this.dataStringToObject(this.data);
             }
@@ -104,11 +100,7 @@ define(function (require, exports, module) {
             var self = this;
             this.base();
             self.control.on("typeahead:selected", function (event, datum) {
-                console.log(datum);
                 self.setValue(self.generateItem(datum));
-                //debugger;
-                //self.setValue(datum.value);
-                //$(self.control).change();
             });
 
             self.control.on("typeahead:change", function (event, datum) {
@@ -126,12 +118,7 @@ define(function (require, exports, module) {
                     "autoselect": true,
                     "highlight": true,
                     "hint": true,
-                    "minLength": 1,
-                    "events": {
-                        "ready": function () {
-                            console.log(this.name + ": ready");
-                        }
-                    }
+                    "minLength": 1
                 },
                 "datasets": {
                     "source": function (query, process) {
@@ -149,14 +136,10 @@ define(function (require, exports, module) {
                             })
                         }).then(function () {
                             return process(array);
-                            debugger;
                         })
                     },
                     "templates": {
                         "suggestion": Handlebars.compile("<div><p style='word-wrap:break-word; white-space: normal'>{{title}}</p></div>") // ({{value}})
-                    },
-                    "afterSelect": function (item) {
-                        console.log(item);
                     }
                 }
             };
