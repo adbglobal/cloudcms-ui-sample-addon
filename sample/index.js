@@ -17,6 +17,7 @@ define(function(require) {
     require("./fields/layout-object.js");
     require("./fields/array-numbered.js");
     require("./fields/content-typeahead.js");
+    require("./fields/command-field.js");
 
     // sample override to document-properties
     //require("./gadgets/sample-product-document-properties/sample-product-document-properties.js");
