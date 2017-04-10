@@ -23,6 +23,7 @@ define(function(require, exports, module) {
                     })
                 }
             }
+            var self = this;
 
             self.connector.branch.queryOne({ "_doc": nodeId }).then(function() {
                 loadCacheAttachment(self.schema, this, 'schema');
