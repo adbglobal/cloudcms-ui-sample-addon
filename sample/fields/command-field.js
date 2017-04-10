@@ -3,10 +3,10 @@ define(function(require, exports, module) {
     var UI = require("ui");
     var Alpaca = require("alpaca");
 
-    return UI.registerField("command", Alpaca.Fields.ObjectField.extend({
+    return UI.registerField("appliance-command", Alpaca.Fields.ObjectField.extend({
 
         getFieldType: function() {
-            return "command";
+            return "appliance-command";
         },
 
         updateSchemaOptions: function(nodeId, callback) {
