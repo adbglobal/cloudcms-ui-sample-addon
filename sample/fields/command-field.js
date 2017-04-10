@@ -41,7 +41,7 @@ define(function(require, exports, module) {
                 // find the field and register a callback
                 var dep = self.top().getControlByPath(self.options.dependentField);
                 if (dep) {
-                    var nodeId = dep.getValue.id;
+                    var nodeId = dep.data.id;
                     this.base(function() {
                         self.updateSchemaOptions(nodeId, callback)
                     })
