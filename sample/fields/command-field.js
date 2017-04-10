@@ -12,13 +12,13 @@ define(function(require, exports, module) {
         updateSchemaOptions: function(nodeId, callback) {
             function loadCacheAttachment(field, node, attachmentName) {
                 var cachedDocument = null;
-                var cachedDocument = self.connector.cache(nodeId + '/' + field);
+                var cachedDocument = self.connector.cache(nodeId + '/' + attachmentName);
                 if (cachedDocument) {
                     Object.assign(field, cachedDocument)
                 } else {
                     node.attachment(attachmentName).download(function(data) {
                         var parsedData = JSON.parse(data);
-                        self.connector.cache(nodeId + '/' + field, parsedData);
+                        self.connector.cache(nodeId + '/' + attachmentName, parsedData);
                         Object.assign(field, parsedData)
                     })
                 }
