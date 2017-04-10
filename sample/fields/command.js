@@ -13,7 +13,7 @@ define(function(require, exports, module) {
      *
      * The select control will populate with all instances of the specified type.
      */
-    return UI.registerField("command", Alpaca.Fields.ObjectField.extend({
+    return UI.registerField("appliance-command", Alpaca.Fields.ObjectField.extend({
 
         setup: function() {
             this.base();
@@ -50,7 +50,7 @@ define(function(require, exports, module) {
         },
             
         getFieldType: function() {
-            return "custom";
+            return "appliance-command";
         },
         
         postRender: function(callback) {
