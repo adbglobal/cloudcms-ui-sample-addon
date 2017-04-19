@@ -53,7 +53,7 @@ define(function(require, exports, module) {
             }
         },
 
-        afterRenderControl: function(model, callback) {
+        afterRenderContainer: function(model, callback) {
             var self = this;
 
             this.base(model, function() {
