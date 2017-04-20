@@ -34,7 +34,7 @@ define(function(require, exports, module) {
             })
         },
         
-        setupField: function(callback) {
+        beforeRenderContainer: function(callback) {
             var self = this;
 
             if (self.options.dependentField) {
@@ -65,12 +65,8 @@ define(function(require, exports, module) {
                         if (dep) {
                             self.subscribe(dep, function(value) {
                                 self.updateSchemaOptions(value.id, function() {
-                                    self.triggerUpdate();
+                                    self.refresh();
                                 })
-                            });
-                            var nodeId = dep.data.id;
-                            self.updateSchemaOptions(nodeId, function () {
-                                self.triggerUpdate();
                             });
                         }
                     }
