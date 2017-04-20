@@ -33,8 +33,8 @@ define(function(require, exports, module) {
                     callback();
             })
         },
-        
-        beforeRenderContainer: function(model, callback) {
+
+        setupField: function(callback) {
             var self = this;
 
             if (self.options.dependentField) {
@@ -42,14 +42,14 @@ define(function(require, exports, module) {
                 var dep = self.top().getControlByPath(self.options.dependentField);
                 if (dep) {
                     var nodeId = dep.data.id;
-                    this.base(model, function() {
+                    this.base(function() {
                         self.updateSchemaOptions(nodeId, callback)
                     })
                 } else {
-                    this.base(model, callback)
+                    this.base(callback)
                 }
             } else {
-                this.base(model, callback)
+                this.base(callback)
             }
         },
 
@@ -65,7 +65,7 @@ define(function(require, exports, module) {
                         if (dep) {
                             self.subscribe(dep, function(value) {
                                 self.updateSchemaOptions(value.id, function() {
-                                    self.refresh();
+                                    self.triggerUpdate();
                                 })
                             });
                         }
