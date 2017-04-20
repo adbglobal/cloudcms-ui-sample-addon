@@ -33,7 +33,7 @@ define(function(require, exports, module) {
                     callback();
             })
         },
-
+        
         setupField: function(callback) {
             var self = this;
 
@@ -67,6 +67,10 @@ define(function(require, exports, module) {
                                 self.updateSchemaOptions(value.id, function() {
                                     self.triggerUpdate();
                                 })
+                            });
+                            var nodeId = dep.data.id;
+                            self.updateSchemaOptions(nodeId, function () {
+                                self.triggerUpdate();
                             });
                         }
                     }
