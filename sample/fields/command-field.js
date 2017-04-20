@@ -34,7 +34,7 @@ define(function(require, exports, module) {
             })
         },
         
-        beforeRenderContainer: function(callback) {
+        beforeRenderContainer: function(model, callback) {
             var self = this;
 
             if (self.options.dependentField) {
@@ -42,14 +42,14 @@ define(function(require, exports, module) {
                 var dep = self.top().getControlByPath(self.options.dependentField);
                 if (dep) {
                     var nodeId = dep.data.id;
-                    this.base(function() {
+                    this.base(model, function() {
                         self.updateSchemaOptions(nodeId, callback)
                     })
                 } else {
-                    this.base(callback)
+                    this.base(model, callback)
                 }
             } else {
-                this.base(callback)
+                this.base(model, callback)
             }
         },
 
