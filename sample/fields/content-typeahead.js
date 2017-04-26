@@ -92,6 +92,27 @@ define(function(require, exports, module) {
             if (Alpaca.isString(value)) {
                 this.data = this.dataStringToObject(this.data);
             }
+            if (this.data) {
+                var val = this.data.title ? this.data.title : this.data.id;
+                this.control.typeahead('val', val);
+                if (this.control && this.control.length > 0) {
+                    if (Alpaca.isEmpty(value)) {
+                        this.control.val("");
+                    } else {
+                        this.control.val(val);
+                    }
+                }
+                this.updateObservable();
+                this.triggerUpdate();
+                // special case - if we're in a display mode and not first render, then do a refresh here
+                if (this.isDisplayOnly() && !this.initializing) {
+                    if (this.top && this.top() && this.top().initializing) {
+                        // if we're rendering under a top most control that isn't finished initializing, then don't refresh
+                    } else {
+                        this.refresh();
+                    }
+                }
+            }
         },
 
         dataObjectToString: function(data) {
