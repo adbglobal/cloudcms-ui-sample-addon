@@ -84,7 +84,7 @@ define(function(require, exports, module) {
     Alpaca.registerTemplate("layout-1-1-2", layout112);
     Alpaca.registerTemplate("layout-1-1-1", layout111);
 
-    Alpaca.registerDefaultSchemaFieldMapping("layout-object", "layout-object");
+    Alpaca.registerDefaultFormatFieldMapping("layout-object", "layout-object");
 
     return UI.registerField("layout-object", Alpaca.Fields.ObjectField.extend({
 
