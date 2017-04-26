@@ -39,34 +39,23 @@ define(function(require, exports, module) {
 
             if (self.options.dependentField) {
                 // find the field and register a callback
-                var dep = self.top().getControlByPath(self.options.dependentField);
-                if (dep) {
-                    if (dep.data)
-                        this.base(function() {
-                            self.updateSchemaOptions(dep.data.id, callback)
-                        })
-                    self.subscribe(dep, function(value) {
-                        if (value)
-                            self.updateSchemaOptions(value.id, function() {
+                self.top().on("ready", function(e) {
+                    var dep = self.top().getControlByPath(self.options.dependentField);
+                    if (dep) {
+                        self.subscribe(dep, function(value) {
+                            if (value)
+                                self.updateSchemaOptions(value.id, function() {
+                                    self.refresh();
+                                })
+                        });
+                        if (dep.data) {
+                            self.updateSchemaOptions(dep.data.id, function() {
                                 self.refresh();
                             })
-                    });
-                } else {
-                    self.top().on("ready", function(e) {
-                        var dep = self.top().getControlByPath(self.options.dependentField);
-                        if (dep) {
-                            self.subscribe(dep, function(value) {
-                                if (value)
-                                    self.updateSchemaOptions(value.id, function() {
-                                        self.refresh();
-                                    })
-                            });
                         }
-                    });
-                    this.base(callback)
-                }
-            } else {
-                this.base(callback)
+                    }
+                });
+                this.base(callback);
             }
         }
 
