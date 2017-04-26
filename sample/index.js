@@ -10,14 +10,11 @@ define(function(require) {
     //require("./actions/sample/create-sample-space.js");
 
     // sample form fields
-    require("./fields/sample-city-picker.js");
-    require("./fields/sample-content-picker.js");
-    require("./fields/command.js");
-    require("./fields/command-parameter.js");
     require("./fields/layout-object.js");
-    require("./fields/array-numbered.js");
     require("./fields/content-typeahead.js");
     require("./fields/command-field.js");
+    require("./fields/node-selector-field.js");
+    require("./fields/recipeVariant.js");
 
     // sample override to document-properties
     //require("./gadgets/sample-product-document-properties/sample-product-document-properties.js");
