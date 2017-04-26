@@ -37,8 +37,6 @@ define(function(require, exports, module) {
         setupField: function(callback) {
             var self = this;
             
-            function 
-
             if (self.options.dependentField) {
                 // find the field and register a callback
                 self.top().on("ready", function(e) {
