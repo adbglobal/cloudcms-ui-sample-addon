@@ -1,4 +1,4 @@
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
     var UI = require("ui");
     var Alpaca = require("alpaca");
@@ -15,7 +15,7 @@ define(function (require, exports, module) {
      */
     return UI.registerField("content-typeahead", Alpaca.Fields.TextField.extend({
 
-        getFieldType: function () {
+        getFieldType: function() {
             return "content-typeahead";
         },
 
@@ -24,23 +24,31 @@ define(function (require, exports, module) {
 
             this.base(function() {
 
-                var item  = self.getValue();
+                var item = self.getValue();
                 if (item) {
-                    self.control.typeahead('val',item.title ? item.title : item.id);
+                    self.control.typeahead('val', item.title ? item.title : item.id);
                     self.setValue(self.generateItem(item));
                 }
                 callback();
             });
         },
 
-        generateItem: function (picked) {
+        onChange: function(e) {
+            var item = this.getValue();
+            if (item) {
+                this.control.typeahead('val', item.title ? item.title : item.id);
+            }
+            this.base(e);
+        },
+
+        generateItem: function(picked) {
             var ref = picked.ref;
 
             if (!ref) {
                 ref = picked.reference;
             }
 
-            if (typeof (ref) === "function") {
+            if (typeof(ref) === "function") {
                 ref = ref.call(picked.object);
             }
             var id = picked._doc;
@@ -57,15 +65,15 @@ define(function (require, exports, module) {
             };
         },
 
-        isString: function () {
+        isString: function() {
             return this.schema.type === "string";
         },
 
-        getValueToText: function () {
+        getValueToText: function() {
             return this.control.val();
         },
 
-        getValue: function () {
+        getValue: function() {
             var value = null;
 
             if (this.data) {
@@ -79,36 +87,36 @@ define(function (require, exports, module) {
             return value;
         },
 
-        setValue: function (value) {
+        setValue: function(value) {
             this.data = value;
             if (Alpaca.isString(value)) {
                 this.data = this.dataStringToObject(this.data);
             }
         },
 
-        dataObjectToString: function (data) {
+        dataObjectToString: function(data) {
             return data.id;
         },
 
-        dataStringToObject: function (text) {
+        dataStringToObject: function(text) {
             return {
                 "id": text
             };
         },
 
-        applyTypeAhead: function () {
+        applyTypeAhead: function() {
             var self = this;
             this.base();
-            self.control.on("typeahead:selected", function (event, datum) {
+            self.control.on("typeahead:selected", function(event, datum) {
                 self.setValue(self.generateItem(datum));
             });
 
-            self.control.on("typeahead:change", function (event, datum) {
+            self.control.on("typeahead:change", function(event, datum) {
                 //console.log(datum);
                 // investigare su modale per inserire nuovo elemento
             });
         },
-        setup: function () {
+        setup: function() {
 
             var self = this;
             this.base();
@@ -121,10 +129,10 @@ define(function (require, exports, module) {
                     "minLength": 1
                 },
                 "datasets": {
-                    "source": function (query, process) {
+                    "source": function(query, process) {
                         var array = [];
 
-                        return self.connector.branch.find({ query: { _type: self.schema._relator.nodeType }, search: { query_string: { query: self.getValueToText() + "*" } } }).each(function () {
+                        return self.connector.branch.find({ query: { _type: self.schema._relator.nodeType }, search: { query_string: { query: self.getValueToText() + "*" } } }).each(function() {
                             array.push({
                                 "title": this.title,
                                 "value": this.title,
@@ -134,7 +142,7 @@ define(function (require, exports, module) {
                                 "typeQName": this.getTypeQName(),
                                 "object": this
                             })
-                        }).then(function () {
+                        }).then(function() {
                             return process(array);
                         })
                     },
