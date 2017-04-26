@@ -36,6 +36,8 @@ define(function(require, exports, module) {
 
         setupField: function(callback) {
             var self = this;
+            
+            function 
 
             if (self.options.dependentField) {
                 // find the field and register a callback
@@ -55,7 +57,13 @@ define(function(require, exports, module) {
                         }
                     }
                 });
-                this.base(callback);
+                var dep = self.top().getControlByPath(self.options.dependentField);
+                if (dep && dep.data)
+                    this.base(function() {
+                        self.updateSchemaOptions(dep.data.id, callback)
+                    })
+               else 
+                    this.base(callback);
             }
         }
 
