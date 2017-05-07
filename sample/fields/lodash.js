@@ -8,7 +8,7 @@ define(function(require, exports, module) {
      * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
      */
     ;
-    return (function() {
+    exports._ = (function() {
 
         /** Used as a safe reference for `undefined` in pre-ES5 environments. */
         var undefined;
