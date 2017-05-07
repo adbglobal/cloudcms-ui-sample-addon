@@ -1,4 +1,3 @@
-define(function(require, exports, module) {
     /**
      * @license
      * Lodash <https://lodash.com/>
@@ -8,7 +7,7 @@ define(function(require, exports, module) {
      * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
      */
     ;
-    exports._ = (function() {
+    (function() {
 
         /** Used as a safe reference for `undefined` in pre-ES5 environments. */
         var undefined;
@@ -17226,4 +17225,3 @@ define(function(require, exports, module) {
             root._ = _;
         }
     }.call(this));
-});
