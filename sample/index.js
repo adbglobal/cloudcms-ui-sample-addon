@@ -14,7 +14,8 @@ define(function(require) {
     require("./fields/content-typeahead.js");
     require("./fields/command-field.js");
     require("./fields/node-selector-field.js");
-    require("./fields/recipeVariant.js");
+    require("./fields/slave-array.js");
+    require("./fields/lodash.js")
 
     // sample override to document-properties
     //require("./gadgets/sample-product-document-properties/sample-product-document-properties.js");
