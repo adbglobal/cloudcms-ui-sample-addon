@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 
     var UI = require("ui");
     var Alpaca = require("alpaca");
-    var _ = require('lodash');
+    var _ = require('./lodash');
 
     Alpaca.Extend(Alpaca, {
         rules: [
