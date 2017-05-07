@@ -53,6 +53,7 @@ define(function(require, exports, module) {
                         Object.assign(field, parsedData)
                     })
                 }
+                //console.log("update " + attachmentName + ' ' + self.name)
             }
             var self = this;
 
@@ -67,11 +68,13 @@ define(function(require, exports, module) {
 
         setupField: function(callback) {
             var self = this;
+            //console.log("setup field " + self.name)
 
             if (self.options.dependentField) {
                 // find the field and register a callback
                 self.top().on("ready", function(e) {
                     var dep = self.top().getControlByPath(self.options.dependentField);
+                    //console.log(self.name, dep)
                     if (dep) {
                         self.subscribe(dep, function(value) {
                             if (value)
@@ -91,9 +94,32 @@ define(function(require, exports, module) {
                     this.base(function() {
                         self.updateSchemaOptions(dep.data.id, callback)
                     })
-                else
-                    this.base(callback);
+                else {
+                    this.base(callback)
+                }
+            } else {
+                this.base(callback)
             }
+        },
+
+        setValue: function(value) {
+            //console.log("update value " + this.name + ' ' + value);
+            if (this.options.isSlave && !this.refreshing) {
+                //console.log("update value " + this.name + ' ' + JSON.stringify(value));
+                //if (Alpaca.isEmpty(this.schema.properties)) {
+                this.schema = Alpaca.schemaByExample(value)
+                    //console.log("new schema: " + JSON.stringify(this.schema, null, 2))
+                    //}
+                this.refreshing = true;
+                var self = this;
+                Alpaca.nextTick(function() {
+                    self.refresh.apply(self, [function() {
+                        self.setValue(value);
+                        self.refreshing = false;
+                    }])
+                })
+            } else
+                this.base(value)
         }
 
     }));
