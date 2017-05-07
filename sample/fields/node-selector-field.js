@@ -15,10 +15,6 @@ define(function(require, exports, module) {
 
     return UI.registerField("node-selector", Alpaca.Fields.SelectField.extend({
 
-        getFieldType: function() {
-            return "node-selector";
-        },
-
         dataStringToObject: function(text) {
             return {
                 "id": text
