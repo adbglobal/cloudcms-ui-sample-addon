@@ -55,11 +55,35 @@ define(function(require, exports, module) {
                 }
                 //console.log("update " + attachmentName + ' ' + self.name)
             }
+
+            function makeSlaveSchema(schema) {
+                if (schema.type == "object") {
+                    var newSchema = {};
+                    Object.assign(newSchema, schema)
+                    newSchema.properties = _.mapValues(schema.properties, makeSlaveSchema);
+                    return newSchema
+                } else {
+                    var newSchema = {}
+                    if (!schema.isVariant) {
+                        newSchema["readonly"] = true
+                    }
+                    Object.assign(newSchema, schema)
+                    return newSchema
+                }
+            }
+
             var self = this;
 
             self.connector.branch.queryOne({ "_doc": nodeId }).then(function() {
-                loadCacheAttachment(self.schema, this, 'schema');
-                loadCacheAttachment(self.options, this, 'options');
+                if (self.options.isSlave) {
+                    var masterSchema = {};
+                    loadCacheAttachment(masterSchema, this, 'schema');
+                    Object.assign(self.schema, makeSlaveSchema(masterSchema))
+                    loadCacheAttachment(self.options, this, 'options');
+                } else {
+                    loadCacheAttachment(self.schema, this, 'schema');
+                    loadCacheAttachment(self.options, this, 'options');
+                }
             }).then(function() {
                 if (callback)
                     callback();
@@ -103,23 +127,7 @@ define(function(require, exports, module) {
         },
 
         setValue: function(value) {
-            //console.log("update value " + this.name + ' ' + value);
-            if (this.options.isSlave && !this.refreshing) {
-                //console.log("update value " + this.name + ' ' + JSON.stringify(value));
-                //if (Alpaca.isEmpty(this.schema.properties)) {
-                this.schema = Alpaca.schemaByExample(value)
-                    //console.log("new schema: " + JSON.stringify(this.schema, null, 2))
-                    //}
-                this.refreshing = true;
-                var self = this;
-                Alpaca.nextTick(function() {
-                    self.refresh.apply(self, [function() {
-                        self.setValue(value);
-                        self.refreshing = false;
-                    }])
-                })
-            } else
-                this.base(value)
+            this.base(value)
         }
 
     }));
