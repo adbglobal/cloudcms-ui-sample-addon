@@ -34,6 +34,8 @@ define(function(require, exports, module) {
         },
     })
 
+    Alpaca.registerDefaultFormatFieldMapping("text", "text");
+
     return UI.registerField("appliance-command", Alpaca.Fields.ObjectField.extend({
 
         getFieldType: function() {
